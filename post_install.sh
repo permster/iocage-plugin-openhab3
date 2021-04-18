@@ -14,6 +14,7 @@ echo " done."
 
 # Unpack the archive into the /usr/local/share directory:
 echo -n "Installing openHAB in /usr/local/share..."
+mkdir /usr/local/share/openhab3
 tar -xzvf openhab-*.tar.gz -C /usr/local/share/openhab3
 echo " done."
 
