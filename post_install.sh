@@ -26,6 +26,9 @@ pw user add openhab -c openhab -u 235 -d /nonexistent -s /usr/bin/nologin
 
 # make "openhab" the owner of the install location
 mkdir /config
+if [ ! -d "/config/userdata/" ]; then
+    cp -R /usr/local/share/openhab3/userdata/ /config/userdata/
+fi
 chown -R openhab:openhab /usr/local/share/openhab3 /config
 
 #Set write permission to be able to write plugins update
