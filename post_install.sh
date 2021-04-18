@@ -14,7 +14,7 @@ echo " done."
 
 # Unpack the archive into the /usr/local/share directory:
 echo -n "Installing openHAB in /usr/local/share..."
-mkdir /usr/local/share/openhab3
+mkdir -p /usr/local/share/openhab3 /config/persistence/db4o /config/persistence/rrd4j /config/persistence/mapdb /config/backups /config/home /config/userdata/etc/scripts /config/userdata/tmp /config/etc/openhab3
 tar -xzvf openhab-*.tar.gz -C /usr/local/share/openhab3
 echo " done."
 
@@ -24,11 +24,11 @@ rm openhab-*.tar.gz
 # Create user
 pw user add openhab -c openhab -u 235 -d /nonexistent -s /usr/bin/nologin
 
+# Move openhab files to config directory
+mv /usr/local/share/openhab3/conf/ /config/etc/openhab3/
+mv /usr/local/share/openhab3/userdata/ /config/userdata/
+
 # make "openhab" the owner of the install location
-mkdir /config
-if [ ! -d "/config/userdata/" ]; then
-    cp -R /usr/local/share/openhab3/userdata/ /config/userdata/
-fi
 chown -R openhab:openhab /usr/local/share/openhab3 /config
 
 #Set write permission to be able to write plugins update
