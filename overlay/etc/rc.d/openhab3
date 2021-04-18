@@ -42,7 +42,7 @@ load_rc_config $name
 : ${openhab3_conf_dir:="/config"}
 : ${openhab3_runtime_dir:="/usr/local/share/openhab3/runtime"}
 : ${openhab3_userdata_dir:="/config/userdata"}
-: ${openhab3_log_dir:="/var/log/openhab3"}
+: ${openhab3_log_dir:="/config/log"}
 
 export OPENHAB_USER="${openhab3_user}"
 export OPENHAB_GROUP="${openhab3_group}"
