@@ -1,0 +1,89 @@
+#!/bin/sh
+
+# PROVIDE: openhab3
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+#
+# Add these lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# openhab3_enable (bool):	Set to NO by default.
+#				Set it to YES to enable openhab3.
+# openhab3_user (username):	Set to openhab by default.
+# openhab3_group (groupname):	Set to openhab by default.
+# openhab3_http_port (port):	Set to 8080 by default.
+# openhab3_https_port (port):	Set to 8443 by default.
+# openhab3_listen_address (IP):	Set to 0.0.0.0 for http/https by default.
+# openhab3_backup_dir (path):	Set to /var/db/openhab3/backups by default.
+# openhab3_java_opts (string):	Empty by default. You can add additional java
+#				options like -Duser.timezone=Europe/Berlin and/or
+#				-Dgnu.io.rxtx.SerialPorts=/dev/cuau0
+# openhab3_home_dir (path):	Set to /usr/local/libexec/openhab3 by default.
+# openhab3_conf_dir (path):	Set to /usr/local/etc/openhab3 by default.
+# openhab3_runtime_dir (path):	Set to /usr/local/libexec/openhab3/runtime by default.
+# openhab3_userdata_dir (path):	Set to /var/db/openhab3/userdata by default.
+# openhab3_log_dir (path):	Set to /var/log/openhab3 by default.
+
+. /etc/rc.subr
+
+name=openhab3
+rcvar=openhab3_enable
+
+load_rc_config $name
+
+: ${openhab3_enable:="NO"}
+: ${openhab3_user:="openhab"}
+: ${openhab3_group:="openhab"}
+: ${openhab3_http_port:="8080"}
+: ${openhab3_https_port:="8443"}
+: ${openhab3_listen_address:="0.0.0.0"}
+: ${openhab3_backup_dir:="/config/backups"}
+: ${openhab3_home_dir:="/usr/local/share/openhab3"}
+: ${openhab3_conf_dir:="/config"}
+: ${openhab3_runtime_dir:="/usr/local/share/openhab3/runtime"}
+: ${openhab3_userdata_dir:="/config/userdata"}
+: ${openhab3_log_dir:="/var/log/openhab3"}
+
+export OPENHAB_USER="${openhab3_user}"
+export OPENHAB_GROUP="${openhab3_group}"
+export OPENHAB_HTTP_PORT="${openhab3_http_port}"
+export OPENHAB_HTTPS_PORT="${openhab3_https_port}"
+export OPENHAB_HTTP_ADDRESS="${openhab3_listen_address}"
+export OPENHAB_BACKUPS="${openhab3_backup_dir}"
+export EXTRA_JAVA_OPTS="-Dsun.nio.fs.watchservice=polling ${openhab3_java_opts}"
+export OPENHAB_HOME="${openhab3_home_dir}"
+export OPENHAB_CONF="${openhab3_conf_dir}"
+export OPENHAB_RUNTIME="${openhab3_runtime_dir}"
+export OPENHAB_USERDATA="${openhab3_userdata_dir}"
+export OPENHAB_LOGDIR="${openhab3_log_dir}"
+# for UTF-8 encoding, language can be set inside openhab:
+export LC_ALL=en_US.UTF-8
+
+pidfile=/var/run/${name}/${name}.pid
+
+command=/usr/sbin/daemon
+command_args="-p ${pidfile} -t openhab3 ${OPENHAB_HOME}/start.sh server"
+
+openhab3_stop() {
+	${OPENHAB_RUNTIME}/bin/stop
+	if [ -e ${pidfile} ]; then
+		wait_for_pids $(cat ${pidfile})
+	fi
+}
+
+openhab3_status() {
+	case "$(${OPENHAB_RUNTIME}/bin/status 2>&1)" in
+		"Not Running ...")
+			echo ${name} is not running,
+			;;
+		"Running ...")
+			echo ${name} is running.
+			;;
+	esac
+}
+
+stop_cmd="openhab3_stop"
+status_cmd="openhab3_status"
+
+
+run_rc_command "$1"
