@@ -59,7 +59,7 @@ export OPENHAB_LOGDIR="${openhab3_log_dir}"
 # for UTF-8 encoding, language can be set inside openhab:
 export LC_ALL=en_US.UTF-8
 
-pidfile=/var/run/${name}/${name}.pid
+pidfile=/config/${name}.pid
 
 command=/usr/sbin/daemon
 command_args="-p ${pidfile} -t openhab3 ${OPENHAB_HOME}/start.sh server"
