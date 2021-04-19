@@ -1,0 +1,12 @@
+--- setenv.orig	2021-04-18 16:47:58.832641661 -0700
++++ setenv	2021-04-18 16:54:46.776240129 -0700
+@@ -150,6 +150,9 @@
+     if [ "x${JAVA}" = "x" ] && [ -r /etc/gentoo-release ] ; then
+         JAVA_HOME=$(java-config --jre-home)
+     fi
++    if [ "x$JAVA_HOME" = "x" ]; then
++        eval $(env JAVAVM_DRYRUN=true /usr/local/bin/java | grep JAVA_HOME)
++    fi
+     if [ "x${JAVA}" = "x" ]; then
+         if [ "x${JAVA_HOME}" != "x" ]; then
+             if [ ! -d "${JAVA_HOME}" ]; then
