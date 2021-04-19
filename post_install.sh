@@ -30,7 +30,7 @@ pw user add openhab -c openhab -u 235 -d /nonexistent -s /usr/bin/nologin
 
 # Move openhab files to config directory
 mv ${INSTALL_DIR}/conf/ /config/etc/openhab3/
-mv ${INSTALL_DIR}/userdata/ /config/userdata/
+mv ${INSTALL_DIR}/userdata/ /config/
 
 # patch setenv
 cd ${INSTALL_DIR}/runtime/bin/
