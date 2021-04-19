@@ -33,6 +33,7 @@ mv ${INSTALL_DIR}/conf/ /config/etc/openhab3/
 mv ${INSTALL_DIR}/userdata/ /config/userdata/
 
 # patch setenv
+cd ${INSTALL_DIR}/runtime/bin/
 patch < ${INSTALL_DIR}/runtime/bin/patch-runtime_bin_setenv
 
 # make "openhab" the owner of the install location
