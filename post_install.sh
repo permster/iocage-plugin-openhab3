@@ -21,7 +21,7 @@ echo " done."
 # Unpack the archive into the /usr/local/share directory:
 echo -n "Installing openHAB in /usr/local/share..."
 INSTALL_DIR="/usr/local/share/openhab3"
-mkdir -p ${INSTALL_DIR} /config/persistence/db4o /config/persistence/rrd4j /config/persistence/mapdb /config/backups /config/home /config/log /config/userdata/etc/scripts
+mkdir -p ${INSTALL_DIR} /config/persistence/db4o /config/persistence/rrd4j /config/persistence/mapdb /config/backups /config/home /config/log /config/etc
 tar -xzvf openhab-*.tar.gz -C ${INSTALL_DIR}
 echo " done."
 
