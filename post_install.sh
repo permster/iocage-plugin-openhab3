@@ -7,7 +7,7 @@
 
 # The latest snapshot version of openHAB:
 BASE_URL="https://ci.openhab.org/job/openHAB3-Distribution/lastSuccessfulBuild/"
-OPENHAB_SOFTWARE_URL=$(fetch -qo - "${BASE_URL}api/xml?tree=artifacts[relativePath]{1}" | sed -n 's:.*<relativePath>\(.*\)</relativePath>.*:\1:p')
+OPENHAB_SOFTWARE_URL=$(fetch -qo - "${BASE_URL}api/xml?tree=artifacts[relativePath]{0}" | sed -n 's:.*<relativePath>\(.*\)</relativePath>.*:\1:p')
 OPENHAB_SOFTWARE_URL="${BASE_URL}artifact/${OPENHAB_SOFTWARE_URL}"
 
 # Switch to a temp directory for the openHAB download:
