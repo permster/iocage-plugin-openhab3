@@ -1,8 +1,14 @@
 #!/bin/sh
 
 # The latest version of openHAB:
-VERSION=$(fetch -qo - https://dl.bintray.com/openhab/mvn/org/openhab/distro/openhab/maven-metadata.xml | grep "<version>" | grep -Eo '[0-9\.]+' | head -n 1)
-OPENHAB_SOFTWARE_URL="https://dl.bintray.com/openhab/mvn/org/openhab/distro/openhab/${VERSION}/openhab-${VERSION}.tar.gz"
+# Issues with version 3.0.1 regarding add-on installation, changing to latest snapshot version for now
+#VERSION=$(fetch -qo - https://dl.bintray.com/openhab/mvn/org/openhab/distro/openhab/maven-metadata.xml | grep "<version>" | grep -Eo '[0-9\.]+' | head -n 1)
+#OPENHAB_SOFTWARE_URL="https://dl.bintray.com/openhab/mvn/org/openhab/distro/openhab/${VERSION}/openhab-${VERSION}.tar.gz"
+
+# The latest snapshot version of openHAB:
+BASE_URL="https://ci.openhab.org/job/openHAB3-Distribution/lastSuccessfulBuild/"
+OPENHAB_SOFTWARE_URL=$(fetch -qo - "${BASE_URL}api/xml?tree=artifacts[relativePath]{1}" | sed -n 's:.*<relativePath>\(.*\)</relativePath>.*:\1:p')
+OPENHAB_SOFTWARE_URL="${BASE_URL}artifact/${OPENHAB_SOFTWARE_URL}"
 
 # Switch to a temp directory for the openHAB download:
 cd `mktemp -d -t openhab`
